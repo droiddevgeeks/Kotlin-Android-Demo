@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">REDDIT NEWS</string>
+    <string name="title_activity_main">REDDIT</string>
+    <string name="action_settings">Settings</string>
+</resources>
