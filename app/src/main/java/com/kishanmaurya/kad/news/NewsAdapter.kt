@@ -4,13 +4,14 @@ import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.kishanmaurya.kad.commons.AdapterConstants
+import com.kishanmaurya.kad.commons.ItemClickListener
 import com.kishanmaurya.kad.commons.ViewType
 import com.kishanmaurya.kad.commons.ViewTypeDelegateAdapter
 
 /**
  * Created by kishanmaurya on 25/9/17.
  */
-class NewsAdapter(listener: NewsDelegateAdapter.onViewSelectedListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
+class NewsAdapter(listener: ItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
     private var items: ArrayList<ViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()

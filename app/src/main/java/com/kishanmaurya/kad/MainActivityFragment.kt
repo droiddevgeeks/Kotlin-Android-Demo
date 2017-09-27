@@ -1,5 +1,6 @@
 package com.kishanmaurya.kad
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
@@ -7,11 +8,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.kishanmaurya.kad.base.RxBaseFragment
 import com.kishanmaurya.kad.commons.InfiniteScrollListener
+import com.kishanmaurya.kad.commons.ItemClickListener
 import com.kishanmaurya.kad.commons.inflate
-import com.kishanmaurya.kad.commons.toast
 import com.kishanmaurya.kad.news.News
 import com.kishanmaurya.kad.news.NewsAdapter
-import com.kishanmaurya.kad.news.NewsDelegateAdapter
 import com.kishanmaurya.kad.news.NewsManager
 import kotlinx.android.synthetic.main.fragment_main.*
 import rx.android.schedulers.AndroidSchedulers
@@ -20,10 +20,11 @@ import rx.schedulers.Schedulers
 /**
  * A placeholder fragment containing a simple view.
  */
-class MainActivityFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelectedListener
+class MainActivityFragment : RxBaseFragment()
 {
     private var newsList: News? = null
     private val newsManager by lazy { NewsManager() }
+    private var listener : ItemClickListener? =null
 
 
     // companion is used to declare static variable
@@ -65,13 +66,25 @@ class MainActivityFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelecte
         }
     }
 
+    override fun onAttach(context: Context?)
+    {
+        super.onAttach(context)
+        if( context is ItemClickListener)
+        {
+            listener  = context
+        }
+
+    }
+
+
     private fun initAdapter()
     {
         if(news_list.adapter == null)
         {
-            news_list.adapter = NewsAdapter(this)
+            news_list.adapter = NewsAdapter(listener!!)
         }
     }
+
 
     private fun requestNews()
     {
@@ -101,9 +114,10 @@ class MainActivityFragment : RxBaseFragment(), NewsDelegateAdapter.onViewSelecte
         }
     }
 
-    override fun onItemSelected(url: String?)
+    override fun onDetach()
     {
-        context.toast(url ?: "Clicked")
+        super.onDetach()
+        listener =null
     }
 
 }

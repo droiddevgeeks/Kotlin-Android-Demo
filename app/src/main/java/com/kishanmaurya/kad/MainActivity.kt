@@ -5,10 +5,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import com.kishanmaurya.kad.commons.ItemClickListener
+import com.kishanmaurya.kad.news.NewsWebViewFragment
 
-class MainActivity : AppCompatActivity()
+class MainActivity : AppCompatActivity(), ItemClickListener
 {
-
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity()
 
         if(savedInstanceState == null)
         {
-            changeFragment(MainActivityFragment());
+            changeFragment(MainActivityFragment())
         }
     }
 
@@ -31,11 +32,16 @@ class MainActivity : AppCompatActivity()
         }
 
         ft.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_popup_enter, R.anim.abc_popup_exit)
-        ft.replace(R.id.activity_base_content, f)
+        ft.add(R.id.activity_base_content, f)
         ft.addToBackStack(null)
         ft.commit()
     }
 
+    override fun onItemSelected(url: String?)
+    {
+        val fragment = NewsWebViewFragment.newInstance(url ?: "")
+        changeFragment(fragment)
+    }
 
     private fun clearBackStack()
     {
@@ -48,18 +54,5 @@ class MainActivity : AppCompatActivity()
         }
     }
 
-    override fun onBackPressed()
-    {
-        super.onBackPressed()
-        val fragmentManager = supportFragmentManager
-        if(fragmentManager.backStackEntryCount > 1)
-        {
-            fragmentManager.popBackStack()
-        }
-        else
-        {
-            finish()
-        }
-    }
 
 }
